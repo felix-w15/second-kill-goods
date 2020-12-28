@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<script src="js/vue.min.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1元秒杀劳斯莱斯</title>
+</head>
+
+<style>
+    .purchaseArea{
+        text-align: center;
+        width: 500px;
+        height: 332px;
+        margin-left: 35%;
+        margin-right: 31%;
+        margin-top: 10%;
+    }
+
+    .car{
+        background: url("image/laosilaisi.jpg");
+        width: 500px;
+        height: 332px;
+    }
+
+    .headLine{
+        background-color: red;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 500px;
+        color: yellow;
+        font-family: "Microsoft YaHei UI",serif;
+        font-size: 30px;
+        letter-spacing: 3px;
+    }
+
+    button{
+        /*background-color: orangered;*/
+        margin-top: 20px;
+        float: right;
+        font-size: 25px;
+        font-family: "Microsoft YaHei UI",serif;
+        letter-spacing: 3px;
+        /*border-color: red;*/
+    }
+</style>
+
+<body>
+<div class="purchaseArea">
+    <div class="car"></div>
+    <div class="headLine">典藏版劳斯莱斯</div>
+    <div class="headLine" id = "car">目前仅剩{{carNums}}辆,抢购请从速</div>
+    <div><button>抢购</button></div>
+</div>
+<script>
+    new Vue({
+        el: '#car',
+        data:{
+            carNums:0
+        }
+    })
+</script>
+
+</body>
+</html>
