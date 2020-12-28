@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<script src="js/vue.min.js"></script>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <style>
+    body{
+        background:url("/static/image/bg.png") no-repeat;
+        background-size: cover;
+    }
+
+    #mainWin {
+        background-color: rgba(255, 182, 193, 0.4);
+        position: absolute;
+        height: 370px;
+        width: 500px;
+        left: 50%;
+        top: 50%;
+        margin-left: -250px;
+        margin-top: -185px;
+    }
+
     .login {
         font-size: 35px;
         line-height: 60px;
         padding-top: 8%;
         /*padding-left: 16%;*/
-        font-family: "Microsoft YaHei UI",serif;
+        font-family: "Microsoft YaHei UI", serif;
         text-align: center;
         color: white;
     }
 
-    #mainWin {
-        background-color: rgba(255, 182, 193, 0.4);
-        height: 370px;
-        width: 500px;
-        margin-top: 20%;
-        margin-left: 35%;
-    }
 
-    input{
-        letter-spacing: 3px;
+
+    input {
+        letter-spacing: 1px;
         padding-top: 6px;
         padding-left: 6px;
         padding-bottom: 6px;
         font-size: 20px;
     }
 
-    #loginBut{
+    #loginBut {
         width: 80px;
         margin-left: 140px;
         margin-top: 20px;
@@ -37,7 +46,7 @@
         font-size: 15px;
     }
 
-    #registerBut{
+    #registerBut {
         width: 80px;
         margin-right: 140px;
         margin-top: 20px;
@@ -45,7 +54,7 @@
         font-size: 15px;
     }
 
-    p{
+    p {
         margin-top: 70px;
         font-size: 20px;
         color: red;
@@ -56,30 +65,25 @@
     <meta charset="UTF-8">
     <title>登录界面</title>
 </head>
-<body background="image/bg.png">
+<body >
 <div id="mainWin">
     <!--登录主框-->
     <div class="login">
         <div><label>商品秒杀入口</label></div>
         <!--登录表单-->
-        <from action="/doLogin" method="post" class="login_from">
-            <div class="username"><input name="username"  placeholder="用户名"/></div>
-            <div class="password"><input name="password" type="password"  placeholder="密码"/></div>
-            <div class="submit" ><input name="submit" id = "loginBut" type="submit" value="登录"/></div>
-        </from>
-        <div class="submit" ><input name="register" id = "registerBut" type="button" value="注册"/></div>
-        <p id="errorMsg">{{msg}}</p>
+        <form action="/doLogin" method="post" class="login_form">
+            <div class="username"><input name="username" placeholder="用户名"/></div>
+            <div class="password"><input name="password" type="password" placeholder="密码"/></div>
+            <div class="submit"><input name="submit" id="loginBut" type="submit" value="登录"/></div>
+        </form>
+        <div class="submit"><input name="register" id="registerBut" type="button" value="注册"/></div>
+        <p id="errorMsg" th:text="${msg}"></p>
     </div>
 </div>
 </div>
 
 <script>
-    new Vue({
-        el: '#errorMsg',
-        data:{
-            msg:''
-        }
-    })
+
 </script>
 </body>
 </html>
