@@ -10,7 +10,8 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/","/login","/doLogin").excludePathPatterns("/static/**");
+                .excludePathPatterns("/","/login","/doLogin")
+                .excludePathPatterns("/static/**");
     }
 
     @Override
@@ -18,5 +19,6 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
 // classpath表示在resource目录下，/static/** 表示在URL路径中访问如
 // http://localhost:8080/static/ 即可访问到resource下的static目录
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//        super.addResourceHandlers(registry);
     }
 }
