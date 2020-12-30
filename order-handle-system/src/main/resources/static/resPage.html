@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <title>秒杀结果</title>
+</head>
+<style>
+    .res {
+        letter-spacing: 3px;
+        margin-top: 100px;
+        margin-left: 50px;
+        font-size: 40px;
+        font-family: "Microsoft YaHei UI", serif;
+    }
+
+    #flushBut{
+        margin-top: 100px;
+        margin-left: 500px;
+        float: left;
+        width: 80px;
+        height: 40px;
+        font-size: 25px;
+    }
+</style>
+<body>
+<div class="res" id="resArea">暂未出结果，请点击刷新按钮再次查询</div>
+<div>
+    <button id="flushBut">刷新</button>
+</div>
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+                url: "/getCarRes",
+                type: "get",
+                success: function (res) {
+                    document.getElementById("resArea").innerText = res.status;
+                }
+            }
+        );
+
+        $("#flushBut").bind("click", function () {
+            $.ajax({
+                    url: "/getCarRes",
+                    type: "get",
+                    success: function (res) {
+                        document.getElementById("resArea").innerText = res.status;
+                    }
+                }
+            );
+        })
+    })
+
+</script>
+</html>

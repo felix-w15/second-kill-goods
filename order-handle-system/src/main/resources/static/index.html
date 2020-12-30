@@ -64,6 +64,11 @@
     #logoutBut{
         float: left;
     }
+
+    #getRes{
+        float: left;
+        margin-left: 100px;
+    }
 </style>
 
 
@@ -83,6 +88,9 @@
     <div>
         <button id="logoutBut" onclick="logout();">登出</button>
     </div>
+    <form action="/resPage">
+        <button type="submit" id="getRes">抢购结果</button>
+    </form>
     <div>
         <button id="killBut" onclick="return secKill();" disabled>抢购</button>
     </div>
@@ -155,6 +163,7 @@
             }
         })
     }
+
 </script>
 
 </body>

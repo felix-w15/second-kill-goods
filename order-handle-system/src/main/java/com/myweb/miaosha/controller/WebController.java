@@ -3,8 +3,12 @@ package com.myweb.miaosha.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.myweb.miaosha.config.CommonConfig;
 import com.myweb.miaosha.entity.Customer;
+import com.myweb.miaosha.entity.Good;
+import com.myweb.miaosha.entity.Order;
 import com.myweb.miaosha.entity.SecKillRes;
 import com.myweb.miaosha.service.CustomerService;
+import com.myweb.miaosha.service.GoodService;
+import com.myweb.miaosha.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +37,12 @@ public class WebController {
 
     @Autowired
     CommonConfig commonConfig;
+
+    @Autowired
+    GoodService goodService;
+
+    @Autowired
+    OrderService orderService;
 
     @GetMapping({"", "/login"})
     public String login(HttpSession session) {
@@ -92,7 +102,8 @@ public class WebController {
     @RequestMapping("/getCarNum")
     @ResponseBody
     public Object getCarNum() {
-        return 999;
+        Good g = goodService.getGood("car");
+        return g.getGoodRemainNum();
     }
 
 
@@ -110,12 +121,9 @@ public class WebController {
         dateStart = formatter.parse(commonConfig.getStartTimeStr());
         dateEnd = formatter.parse(commonConfig.getEndTimeStr());
         Date nowTime = new Date();
-//        System.out.println(nowTime.getTime()+" "+ dateStart.getTime());
-        if(nowTime.getTime() < dateStart.getTime() || nowTime.getTime() >= dateEnd.getTime()){
+        if (nowTime.getTime() < dateStart.getTime() || nowTime.getTime() >= dateEnd.getTime()) {
             return "";
         }
-//        System.out.println("获取url");
-
         return "/secKill";
     }
 
@@ -125,7 +133,6 @@ public class WebController {
         //判断验证码是否正确
         String valCode = (String) session.getAttribute("verifyCode");
         SecKillRes res = new SecKillRes();
-//        System.out.println(valCode+" "+myValCode);
         if (!valCode.equals(myValCode)) {
             res.setCode(300);
             res.setStatus("验证码错误");
@@ -133,6 +140,27 @@ public class WebController {
         }
         res.setCode(200);
         res.setStatus("请求提交成功");
+        return res;
+    }
+
+    @GetMapping("/resPage")
+    public String resPage() {
+        return "resPage";
+    }
+
+    @GetMapping("/getCarRes")
+    @ResponseBody
+    public SecKillRes getRes(HttpSession session) {
+        SecKillRes res = new SecKillRes();
+        Customer customer = (Customer) session.getAttribute("user");
+        Order order = orderService.getOrder(customer.getId(), 1);
+        if(order == null){
+            res.setCode(300);
+            res.setStatus("商品秒杀失败或者订单还在处理中");
+        } else {
+            res.setCode(200);
+            res.setStatus("秒杀成功，成功抢到劳斯莱斯");
+        }
         return res;
     }
 }

@@ -2,8 +2,13 @@ package com.myweb.miaosha;
 
 import com.myweb.miaosha.config.CommonConfig;
 import com.myweb.miaosha.entity.Customer;
+import com.myweb.miaosha.entity.Good;
+import com.myweb.miaosha.entity.Order;
 import com.myweb.miaosha.service.CustomerService;
+import com.myweb.miaosha.service.GoodService;
+import com.myweb.miaosha.service.OrderService;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,6 +24,12 @@ class MiaoshaApplicationTests {
 
     @Autowired
     CommonConfig commonConfig;
+
+    @Autowired
+    GoodService goodService;
+
+    @Autowired
+    OrderService orderService;
 
     @Test
     void contextLoads() {
@@ -42,5 +53,18 @@ class MiaoshaApplicationTests {
         date = formatter.parse(commonConfig.getEndTimeStr());
 
         System.out.println(new Date().toString());
+    }
+
+    //测试GoodService
+    @Test
+    void getGood(){
+        Good g = goodService.getGood("car");
+        System.out.println(g.getGoodName()+" "+g.getGoodTotalNum());
+    }
+    //测试OrderService
+    @Test
+    void getOrder(){
+        Order order = orderService.getOrder(1,1);
+        System.out.println(order.getOrderId());
     }
 }
