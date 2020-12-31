@@ -124,7 +124,6 @@
                 } else {
                     $("#killBut").setAttribute("disabled", "disabled");
                 }
-                alert(myURL);
             }
         });
     });
@@ -143,10 +142,12 @@
             success: function (response) {
                 if (response.code === 404) {
                     alert("抢购还未开始或已结束");
+                    window.location.href="/resPage";
                 } else if (response.code === 300) {
                     alert("验证码错误");
                 } else if (response.code === 200) {
                     alert("请求提交成功，排队中");
+                    window.location.href="/resPage";
                 }
             }
         });

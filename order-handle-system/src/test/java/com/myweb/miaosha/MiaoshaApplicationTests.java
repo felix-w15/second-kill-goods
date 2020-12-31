@@ -4,6 +4,9 @@ import com.myweb.miaosha.config.CommonConfig;
 import com.myweb.miaosha.entity.Customer;
 import com.myweb.miaosha.entity.Good;
 import com.myweb.miaosha.entity.Order;
+import com.myweb.miaosha.entity.SecKillMsg;
+import com.myweb.miaosha.rabbitmq.MQRecevier;
+import com.myweb.miaosha.rabbitmq.MQSender;
 import com.myweb.miaosha.service.CustomerService;
 import com.myweb.miaosha.service.GoodService;
 import com.myweb.miaosha.service.OrderService;
@@ -30,6 +33,12 @@ class MiaoshaApplicationTests {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    MQSender mqSender;
+
+    @Autowired
+    MQRecevier mqRecevier;
 
     @Test
     void contextLoads() {
@@ -66,5 +75,15 @@ class MiaoshaApplicationTests {
     void getOrder(){
         Order order = orderService.getOrder(1,1);
         System.out.println(order.getOrderId());
+    }
+    //测试rabbitMQ
+    @Test
+    void sendOrder() throws Exception {
+        SecKillMsg secKillMsg = new SecKillMsg(1,1);
+        mqSender.sendSeckillMsg(secKillMsg);
+    }
+    @Test
+    void receiveOrder() throws Exception {
+
     }
 }

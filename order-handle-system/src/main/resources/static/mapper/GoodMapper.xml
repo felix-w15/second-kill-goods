@@ -7,4 +7,11 @@
     <select id="getGood" resultType="com.myweb.miaosha.entity.Good">
         select * from goods where good_name = #{goodName}
     </select>
+    <select id="getGoodById" resultType="com.myweb.miaosha.entity.Good">
+        select * from goods where id = #{id}
+    </select>
+    <select id="updateGood" resultType="com.myweb.miaosha.entity.Good">
+        update goods set good_name=#{goodName}, good_total_num=#{totalNum}, good_remain_num=#{remainNum}
+        where id=#{id}
+    </select>
 </mapper>

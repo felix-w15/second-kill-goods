@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderMapper {
     Order getOrder(int customerId, int goodId);
+    void putOrder(int customerId, int goodId);
 }

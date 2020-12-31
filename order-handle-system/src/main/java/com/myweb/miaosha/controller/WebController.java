@@ -2,10 +2,9 @@ package com.myweb.miaosha.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.myweb.miaosha.config.CommonConfig;
-import com.myweb.miaosha.entity.Customer;
-import com.myweb.miaosha.entity.Good;
-import com.myweb.miaosha.entity.Order;
-import com.myweb.miaosha.entity.SecKillRes;
+import com.myweb.miaosha.entity.*;
+import com.myweb.miaosha.rabbitmq.MQRecevier;
+import com.myweb.miaosha.rabbitmq.MQSender;
 import com.myweb.miaosha.service.CustomerService;
 import com.myweb.miaosha.service.GoodService;
 import com.myweb.miaosha.service.OrderService;
@@ -24,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class WebController {
@@ -43,6 +43,15 @@ public class WebController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    MQSender mqSender;
+
+    @Autowired
+    MQRecevier mqRecevier;
+
+    //防止重复秒杀
+    ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
 
     @GetMapping({"", "/login"})
     public String login(HttpSession session) {
@@ -65,6 +74,8 @@ public class WebController {
             return "login";
         }
         session.setAttribute("user", customer);
+        Good g = new Good(1,"car", 1000,1000);
+        session.setAttribute("good", g);
         System.out.println("---------" + customer.getUsername() + " login---------");
         return "index";
     }
@@ -129,15 +140,26 @@ public class WebController {
 
     @PostMapping("/secKill")
     @ResponseBody
-    public SecKillRes secKill(@RequestParam("myValidateCode") String myValCode, HttpSession session) {
+    public SecKillRes secKill(@RequestParam("myValidateCode") String myValCode, HttpSession session) throws Exception {
         //判断验证码是否正确
+
         String valCode = (String) session.getAttribute("verifyCode");
+        Customer customer = (Customer)session.getAttribute("user");
+        Good good = (Good)session.getAttribute("good");
         SecKillRes res = new SecKillRes();
+
+        if(map.containsKey(customer.getId())){
+            return res;
+        }
+
         if (!valCode.equals(myValCode)) {
             res.setCode(300);
             res.setStatus("验证码错误");
             return res;
         }
+        SecKillMsg secKillMsg = new SecKillMsg(customer.getId(), good.getId());
+        mqSender.sendSeckillMsg(secKillMsg);
+        map.put(customer.getId(), good.getId());
         res.setCode(200);
         res.setStatus("请求提交成功");
         return res;

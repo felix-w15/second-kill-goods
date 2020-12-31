@@ -14,4 +14,7 @@ public class OrderService {
         return orderMapper.getOrder(customerId, goodId);
     }
 
+    public void putOrder(int customerId, int goodId){
+        orderMapper.putOrder(customerId, goodId);
+    }
 }

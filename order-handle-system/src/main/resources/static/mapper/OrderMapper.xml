@@ -7,4 +7,7 @@
     <select id="getOrder" resultType="com.myweb.miaosha.entity.Order">
         select * from orders where customer_id = #{customerId} AND good_id = #{goodId}
     </select>
+    <select id="putOrder" resultType="com.myweb.miaosha.entity.Order">
+        insert into orders (good_id,customer_id) values(#{goodId}, #{customerId});
+    </select>
 </mapper>

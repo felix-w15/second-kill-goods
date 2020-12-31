@@ -7,4 +7,6 @@ import org.mybatis.spring.annotation.MapperScan;
 @Mapper
 public interface GoodMapper {
     Good getGood(String goodName);
+    Good getGoodById(int id);
+    void updateGood(int id, String goodName, int totalNum, int remainNum);
 }
