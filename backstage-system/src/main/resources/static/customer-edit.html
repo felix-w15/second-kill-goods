@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin1.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+</head>
+<body>
+    <div th:replace="public::top"></div>
+    <!-- 中部开始 -->
+    <div class="wrapper">
+        <div th:replace="public::mid"></div>
+        <!-- 右侧主体开始 -->
+        <div class="page-content">
+
+          <div class="content">
+            <!-- 右侧内容框架，更改从这里开始 -->
+            <form id="subForm" class="layui-form"  onsubmit="return beforeSub();" method="post" action="/editUser">
+                <div class="layui-form-item">
+                    <label for="L_username" class="layui-form-label">
+                        用户名
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_username" name="username"  lay-verify="required" required
+                          th:value="${customerName}" autocomplete="off"  class="layui-input" readonly>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label for="L_pwd" class="layui-form-label">
+                        密码
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_pwd" name="password" autocomplete="off"
+                        class="layui-input" th:value="${customerPassword}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        6到16个字符
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_bt" class="layui-form-label">
+                    </label>
+                    <button class="layui-btn" id="L_bt"  >
+                        保存
+                    </button>
+                </div>
+            </form>
+            <!-- 右侧内容框架，更改从这里结束 -->
+          </div>
+        </div>
+        <!-- 右侧主体结束 -->
+    </div>
+<script>
+
+    function beforeSub(){
+        var pwd = document.getElementById("L_pwd").value;
+        if(pwd.length < 6) {
+            alert("新密码需在6-16个字符之间");
+            return false;
+        }
+        else {
+            alert("修改成功");
+            x_admin_close();
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

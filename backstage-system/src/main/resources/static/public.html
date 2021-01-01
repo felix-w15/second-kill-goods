@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+</head>
+<body>
+
+<div class="container" th:fragment="top">
+    <div class="logo"><a href="#">秒杀后台管理系统</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;" th:text="${session.user.username}">admin</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="/pwdChangePage">修改密码</a></dd>
+                <dd><a href="/logout">退出</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="/logout">前台首页</a></li>
+    </ul>
+</div>
+
+
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+
+    <div class="left-nav" th:fragment="mid">
+        <div id="side-nav">
+            <ul id="nav" th:each="navTree:${session.menu}">
+                <li class="list" >
+                    <a th:href="${navTree.mynav.navURL}" th:text="${navTree.mynav.navName}">
+                        <i class="iconfont">&#xe761;</i>
+
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul  class="sub-menu" th:each="children:${navTree.children}">
+                        <li>
+                            <a th:href="${children.mynav.navURL}" th:text="${children.mynav.navName}">
+                                <i class="iconfont">&#xe6a7;</i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 左侧菜单结束 -->
+</div>
+
+<div class="bg-changer" th:fragment="foot">
+    <div class="swiper-container changer-list">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img class="item" src="/static/images/a.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/b.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/c.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/d.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/e.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/f.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/g.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/h.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/i.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/j.jpg" alt=""></div>
+            <div class="swiper-slide"><img class="item" src="/static/images/k.jpg" alt=""></div>
+            <div class="swiper-slide"><span class="reset">初始化</span></div>
+        </div>
+    </div>
+    <div class="bg-out"></div>
+    <div id="changer-set"><i class="iconfont">&#xe696;</i></div>
+</div>
+
+</body>
+
+<script type="text/javascript" th:fragment="js">
+    $(function () {
+        $.ajax({
+            url: "/getMenu",
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                alert(data[0].mynav.navName);
+                addTab(data);
+            },
+            error: function () {
+                alert("??");
+            }
+        })
+    })
+
+    function addTab(data) {
+
+        var navTree = data;
+        var html = "";
+        alert(data.length);
+        for (var i = 0; i < data.length; i++) {
+            var ob = data[i];
+            var strLi = "<li class=\"list\">";
+            strLi = strLi + "<a href=\"javascript:;\">\n" +
+                "                            <i class=\"iconfont\">&#xe70b;</i>" +
+                ob.mynav.navName + "<i class=\"iconfont nav_right\">&#xe697;</i>\n" +
+                "                        </a>\n" +
+                "                        <ul class=\"sub-menu\">";
+            var child = ob.children;
+            for (var j = 0; j < child.length; j++) {
+                strLi = strLi + "<li>\n" +
+                    "                                <a href=\"" + child[j].mynav.navURL +
+                    " \">\n" +
+                    "                                    <i class=\"iconfont\">&#xe6a7;</i>" + child[j].mynav.navName +
+                    "</a>\n" +
+                    "                            </li>";
+            }
+            strLi = strLi + "</ul>\n" +
+                "                    </li>";
+            html = html + strLi;
+        }
+        document.getElementById("nav").innerHTML = "                    <li class=\"list\" >\n" +
+            "                        <a href=\"javascript:;\">\n" +
+            "                            <i class=\"iconfont\">&#xe6a3;</i>\n" +
+            "                            宿舍管理\n" +
+            "                            <i class=\"iconfont nav_right\">&#xe697;</i>\n" +
+            "                        </a>\n" +
+            "                        <ul class=\"sub-menu\">\n" +
+            "                            <li>\n" +
+            "                                <a href=\"/dormListPage\">\n" +
+            "                                    <i class=\"iconfont\">&#xe6a7;</i>\n" +
+            "                                    宿舍列表\n" +
+            "                                </a>\n" +
+            "                            </li>\n" +
+            "                        </ul>\n" +
+            "                    </li>\n";
+        alert(html);
+    }
+
+</script>
+</html>

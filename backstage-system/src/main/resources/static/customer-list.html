@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>宿舍管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+</head>
+<body>
+<!-- 顶部开始 -->
+<div th:replace="public::top"></div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+    <div th:replace="public::mid"></div>
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="content">
+            <!-- 右侧内容框架，更改从这里开始 -->
+            <!--            <form class="layui-form xbs" action="" >-->
+            <!--                <div class="layui-form-pane" style="text-align: center;">-->
+            <!--                  <div class="layui-form-item" style="display: inline-block;">-->
+            <!--                    <label class="layui-form-label xbs768">日期范围</label>-->
+            <!--                    <div class="layui-input-inline xbs768">-->
+            <!--                      <input class="layui-input" placeholder="开始日" id="LAY_demorange_s">-->
+            <!--                    </div>-->
+            <!--                    <div class="layui-input-inline xbs768">-->
+            <!--                      <input class="layui-input" placeholder="截止日" id="LAY_demorange_e">-->
+            <!--                    </div>-->
+            <!--                    <div class="layui-input-inline">-->
+            <!--                      <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">-->
+            <!--                    </div>-->
+            <!--                    <div class="layui-input-inline" style="width:80px">-->
+            <!--                        <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>-->
+            <!--                    </div>-->
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--            </form>-->
+            <xblock>
+<!--                <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除-->
+<!--                </button>-->
+
+                <span class="x-right" style="line-height:40px" th:text="'共有顾客'+${customerNum}+'人'"></span>
+            </xblock>
+            <table class="layui-table">
+                <thead>
+                <tr>
+
+                    <th>
+                        用户名
+                    </th>
+                    <th>
+                        密码
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u:${customers}">
+                    <td th:text="${u.username}" id="td_username">
+                        <!--                            <u style="cursor:pointer" onclick="member_show('张三','member-show.html','10001','360','400')">-->
+                        <!--                                小明-->
+                        <!--                            </u>-->
+                    </td>
+                    <td th:text="${u.password}">
+                    </td>
+
+
+                    <td class="td-manage">
+                        <a title="编辑" href="javascript:;"  onclick="member_edit(this)"
+                           class="ml-5" style="text-decoration:none">
+                            <i class="layui-icon">&#xe642;</i>
+                        </a>
+                        <a title="删除" href="javascript:;" onclick="member_del(this,'1')"
+                           style="text-decoration:none">
+                            <i class="layui-icon">&#xe640;</i>
+                        </a>
+                    </td>
+                </tr>
+                </tr>
+
+                </tbody>
+            </table>
+            <!-- 右侧内容框架，更改从这里结束 -->
+        </div>
+    </div>
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<!-- 底部结束 -->
+<!-- 背景切换开始 -->
+<div th:replace="public::foot"></div>
+<!-- 背景切换结束 -->
+<!-- 页面动态效果 -->
+<script>
+
+
+    function member_edit(obj) {
+        var username = $(obj).parents("tr").find("td").eq(0).text();
+        var password = $(obj).parents("tr").find("td").eq(1).text();
+        var params = {
+            "username":username,
+            "password":password
+        };
+        httpPost("/editUserPage", params);
+    }
+
+    function httpPost(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            temp.appendChild(opt);
+        }
+
+        document.body.appendChild(temp);
+        temp.submit();
+
+        return temp;
+    }
+
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            //发异步删除数据
+            var username = $(obj).parents("tr").find("td").eq(0).text();
+            $.ajax({
+                url: "delUser",
+                type: "post",
+                data:{username:username},
+                success: function (response) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 5000});
+                }
+            })
+
+        });
+    }
+
+    /*刷新用户*/
+    function member_flush() {
+        window.location.href="/memberList";
+    }
+</script>
+<script>
+    //百度统计可去掉
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</body>
+</html>

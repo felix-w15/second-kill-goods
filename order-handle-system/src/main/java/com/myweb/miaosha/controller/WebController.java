@@ -62,7 +62,6 @@ public class WebController {
     @PostMapping({"/doLogin"})
     public String doLogin(@RequestParam("username") String username, @RequestParam("password") String password,
                           HttpSession session, Model model) {
-        model.addAttribute("carNums", 1000);
         if (session.getAttribute("user") != null) {
             Customer c = (Customer) session.getAttribute("user");
             System.out.println(c.getUsername());
@@ -74,7 +73,7 @@ public class WebController {
             return "login";
         }
         session.setAttribute("user", customer);
-        Good g = new Good(1,"car", 1000,1000);
+        Good g = new Good(1, "car", 1000, 1000);
         session.setAttribute("good", g);
         System.out.println("---------" + customer.getUsername() + " login---------");
         return "index";
@@ -144,11 +143,11 @@ public class WebController {
         //判断验证码是否正确
 
         String valCode = (String) session.getAttribute("verifyCode");
-        Customer customer = (Customer)session.getAttribute("user");
-        Good good = (Good)session.getAttribute("good");
+        Customer customer = (Customer) session.getAttribute("user");
+        Good good = (Good) session.getAttribute("good");
         SecKillRes res = new SecKillRes();
 
-        if(map.containsKey(customer.getId())){
+        if (map.containsKey(customer.getId())) {
             return res;
         }
 
@@ -176,7 +175,7 @@ public class WebController {
         SecKillRes res = new SecKillRes();
         Customer customer = (Customer) session.getAttribute("user");
         Order order = orderService.getOrder(customer.getId(), 1);
-        if(order == null){
+        if (order == null) {
             res.setCode(300);
             res.setStatus("商品秒杀失败或者订单还在处理中");
         } else {

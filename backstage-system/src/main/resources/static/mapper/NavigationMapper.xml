@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.felix.backstage.mapper.NavigationMapper">
+
+    <resultMap id="BaseResultMap" type="com.felix.backstage.entity.Navigation">
+        <id column="id" jdbcType="INTEGER" property="navId" />
+        <result column="name" jdbcType="VARCHAR" property="navName" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="url" jdbcType="VARCHAR" property="navURL" />
+        <result column="listorder" jdbcType="INTEGER" property="listorder" />
+    </resultMap>
+    <select id="getNavigationById" resultType="com.felix.backstage.entity.Navigation">
+        select * from menu where id = #{menuId}
+    </select>
+    <select id="getNavigationByPId" resultType="com.felix.backstage.entity.Navigation">
+        select * from menu where parent_id = #{pid}
+    </select>
+</mapper>

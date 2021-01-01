@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>宿舍管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/font.css">
+	<link rel="stylesheet" href="/static/css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+</head>
+<body>
+
+    <div th:replace="public::top"></div>
+    <!-- 顶部结束 -->
+    <!-- 中部开始 -->
+    <div class="wrapper">
+        <!-- 左侧菜单开始 -->
+        <div th:replace="public::mid"></div>
+        <!-- 左侧菜单结束 -->
+        <!-- 右侧主体开始 -->
+        <div class="page-content">
+            <div class="content">
+            <div style="font-size: 35px">欢迎使用本系统</div>
+
+            </div>
+        </div>
+        <!-- 右侧主体结束 -->
+    </div>
+    <!-- 中部结束 -->
+    <!-- 底部开始 -->
+
+    <!-- 底部结束 -->
+    <!-- 背景切换开始 -->
+    <div th:replace="public::foot"></div>
+    <script th:inline="javascript">
+        var msg = [[${msg}]];
+
+        if(msg != null){
+            alert(msg);
+        }
+    </script>
+<!--    <script type="text/javascript" >-->
+<!--        $(function () {-->
+<!--            $.ajax({-->
+<!--                url: "/getMenu",-->
+<!--                type: "get",-->
+<!--                dataType: "json",-->
+<!--                async: false,-->
+<!--                success: function (data) {-->
+<!--                    // alert(data[0].mynav.navName);-->
+<!--                    // addTab(data);-->
+<!--                },-->
+<!--                error: function () {-->
+<!--                    alert("??");-->
+<!--                }-->
+<!--            })-->
+<!--        })-->
+
+<!--        function addTab(data) {-->
+<!--            alert(data);-->
+<!--            var navTree = data;-->
+<!--            var html = "";-->
+<!--            alert(data.length);-->
+<!--            for (var i = 0; i < data.length; i++) {-->
+<!--                var ob = data[i];-->
+<!--                var li=$("<li class=\"list\"></li>");-->
+<!--                var a =$("<a href=\"#\">"+ob.mynav.navName+"</a>");-->
+<!--                var i1 =$("<i class=\"iconfont\">&#xe761;</i>");-->
+<!--                var i2 =$("<i class=\"iconfont nav_right\">&#xe697;</i>");-->
+
+<!--                a.append(i1);-->
+<!--                a.append(i2);-->
+<!--                li.append(a);-->
+
+<!--                var strLi = "<li class=\"list\">";-->
+<!--                strLi = strLi + "<a href=\"javascript:;\">\n" +-->
+<!--                    "                            <i class=\"iconfont\">&#xe70b;</i>" +-->
+<!--                    ob.mynav.navName + "<i class=\"iconfont nav_right\">&#xe697;</i>\n" +-->
+<!--                    "                        </a>\n" +-->
+<!--                    "                        <ul class=\"sub-menu\">";-->
+<!--                var child = ob.children;-->
+
+
+<!--                var ul = $("<ul class=\"sub-menu\" style=\"display:none\"></ul>");-->
+<!--                for (var j = 0; j < child.length; j++) {-->
+<!--                    var li1=$("<li></li>");-->
+<!--                    var a1 =$("<a href=\""+child[j].mynav.navURL+"\">"+child[j].mynav.navName+"</a>");-->
+<!--                    var i11 =$("<i class=\"iconfont\">&#xe761;</i>");-->
+<!--                    var i21 =$("<i class=\"iconfont nav_right\">&#xe697;</i>");-->
+<!--                    a1.append(i11);-->
+<!--                    a1.append(i21);-->
+<!--                    li1.append(a1);-->
+<!--                    ul.append(li1);-->
+
+
+<!--                    strLi = strLi + "<li>\n" +-->
+<!--                        "                                <a href=\"" + child[j].mynav.navURL +-->
+<!--                        " \">\n" +-->
+<!--                        "                                    <i class=\"iconfont\">&#xe6a7;</i>" + child[j].mynav.navName +-->
+<!--                        "</a>\n" +-->
+<!--                        "                            </li>";-->
+<!--                }-->
+<!--                li.append(ul);-->
+<!--                $("#nav").append(li);-->
+<!--                strLi = strLi + "</ul>\n" +-->
+<!--                    "                    </li>";-->
+<!--                html = html + strLi;-->
+<!--            }-->
+<!--            alert(document.getElementById("nav").innerHTML);-->
+<!--            alert(html);-->
+<!--        }-->
+
+<!--    </script>-->
+
+</body>
+</html>

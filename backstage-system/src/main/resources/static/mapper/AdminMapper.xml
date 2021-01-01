@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.felix.backstage.mapper.AdminMapper">
+    <select id="getAdminByName" resultType="com.felix.backstage.entity.Admin">
+        select * from admin where username = #{username}
+    </select>
+    <select id="updateAdmin" resultType="com.felix.backstage.entity.Admin">
+        update admin set password=#{password} where username=#{username}
+    </select>
+</mapper>
