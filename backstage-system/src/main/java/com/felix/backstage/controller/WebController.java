@@ -46,7 +46,7 @@ public class WebController {
     public String doLogin(@RequestParam("username") String username, @RequestParam("password") String password,
                           HttpSession session, Model model){
         if(session.getAttribute("user") == null){
-            logService.insertLog("/dologin", new Date().toString(), username);
+            logService.insertLog("http://localhost:9000/login", new Date().toString(), username);
             Admin user = adminService.getAdminByName(username);
             if(user == null){
                 model.addAttribute("msg","用户名或密码错误");
